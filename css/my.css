@@ -1,0 +1,162 @@
+body {
+	font-size: 20px;
+}
+
+form {
+	background-color:  #C8C8C8;
+	font-family: Arial;
+	font-size: 1em;
+	width: 40em;
+	margin: auto;
+	border-radius: 0.2em;
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
+}
+.main__alert, .main__notice {
+	font-size : 0.7em;
+	width: 56.5em;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0.3em;
+	border-radius: 0.3em;
+
+}
+.main__alert {
+	background-color: #ffe0c7;
+}
+.main__notice {
+	background-color: #c7ebff;
+}
+a {
+	color: #1f5aff;
+}
+h1 {
+	font-size: 1em;
+	text-align: center;
+	width: 40em;
+	margin-left: auto;
+	margin-right: auto;
+}
+.form__explain-link {
+	text-decoration: none;
+}
+.form_explain-div{
+	background-color: #c2fff5;
+	border-radius: 0.2em;
+}
+.explain-div__p {
+	margin: 1em;
+	font-size: 0.8em;
+}
+.form__input-container{
+	display: block;
+}
+
+.form__item {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+
+}
+.form__label {
+	display: inline-block;
+	vertical-align: middle;
+	width: 34.2em;
+
+}
+.form__label-container {
+	display: block;
+}
+
+input.form__input-elm {
+	display: inline-block;
+	vertical-align: middle;
+	width: 5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	padding: 0.1em;
+	margin-left: 0.3em;
+	border: solid 1px #ADADAD;
+	-webkit-appearance: none;
+	-webkit-user-select: none;
+
+}
+input.form__input-elm--error {
+	background-color: #FAD3D9;
+	border-color: #FF0808;
+
+}
+input.form__input-elm--read-only {
+	background-color: #E3E5FA;
+}
+
+*:focus {
+	outline: 0;
+}
+
+.form__number-label {
+	display: inline-block;
+	background-color: #ffffff;
+	border: solid 0.05em #ADADAD;
+	vertical-align: middle;
+	height: 1.5em;
+	line-height: 1.5em;
+	text-align: center;
+	padding: 0.1em;
+	margin-left: 0.2em;
+
+}
+
+.form__number-label--stroke { 
+	display: inline-block;
+	background-color: #808080;
+	vertical-align: middle;
+	width: 0.3em;
+	height: 1.8em;
+
+}
+
+.form__text-label {
+	display: inline-block;
+	vertical-align: middle;
+	max-width: 26em;
+	word-break: break-word;
+	margin-left: 0.5em;
+}
+.form__errors {
+	margin: 0em 0.2em;
+}
+
+.errors__p {
+	font-size: 0.8em;
+}
+
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 2em; 
+	font-size: 0.7em; 
+}
+.footer__version-info {
+	float: left;
+	margin-left: 0.5em;
+}
+.footer__about {
+	float: left;
+	margin-left: 2em;
+}
+.wrapper {
+	min-height:100%;
+	position:relative;
+}
+.main {
+	padding:10px;
+	padding-bottom:2em;
+}
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
