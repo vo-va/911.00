@@ -80,6 +80,12 @@ input.form__input-elm {
 	-webkit-user-select: none;
 
 }
+
+input.form__input-checkbox-elm {
+	line-height: 1.5em;
+	padding: 0.1em;
+	margin-left: 0.3em;
+}
 input.form__input-elm--error {
 	background-color: #FAD3D9;
 	border-color: #FF0808;
