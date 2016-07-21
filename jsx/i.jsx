@@ -66,7 +66,7 @@ var Pensioner = React.createClass({
 								<ExplainLink explain_html={this.props.pensioner_explain} explain_click={ this.props.handle_explain_click } input_element="pensioner" />
 							</span>
 					</label>
-					<input tabIndex="1" className={class_arr.join(' ')} type="checkbox" value={this.props.pensioner} onChange={this.handleChange} />
+					<input tabIndex="1" className={class_arr.join(' ')} type="checkbox" checked={this.props.pensioner} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 					{errors}
@@ -350,7 +350,7 @@ var PatentForm = React.createClass({
 		this.setState({period : new_value});
 	},
 	handlePensionerChange: function(new_value) {
-		this.setState({pensioner : new_value});
+		this.setState({pensioner : new_value });
 	},
 	handleIncomeChange: function(new_value) {
 		this.setState({income : new_value});
@@ -582,7 +582,10 @@ var _patent_form = ReactDOM.render(
 var body = document.getElementsByTagName('body')[0];
 
 body.addEventListener('click', function(event) {
-	_patent_form.hide_explain();
+	if (event.target.classList.contains('link-hint')){
+		event.preventDefault();
+		_patent_form.hide_explain();
+	}
 });
 
 }());
