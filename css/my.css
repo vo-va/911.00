@@ -166,3 +166,9 @@ body {
    padding:0;
    height:100%;
 }
+
+.centerwrap {
+	margin: auto;
+	width: 728px;	
+
+}
