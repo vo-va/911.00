@@ -1,35 +1,21 @@
-body {
-	font-size: 20px;
-}
-
 form {
-	background-color:  #C8C8C8;
-	font-family: Arial;
-	font-size: 1em;
-	width: 40em;
+	font-size: 1.4em;
 	margin: auto;
 	border-radius: 0.2em;
 	padding-top: 0.1em;
 	padding-bottom: 0.1em;
 }
-.main__alert, .main__notice {
+.main__alert, .main__notice, .main__form {
 	font-size : 0.7em;
 	width: 56.5em;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 0.3em;
+	border: solid 0.05em #fff;
 	border-radius: 0.3em;
+	box-shadow: 0px 0px 0.15em 0px rgba(0,0,0,0.71);
+}
 
-}
-.main__alert {
-	background-color: #ffe0c7;
-}
-.main__notice {
-	background-color: #c7ebff;
-}
-a {
-	color: #1f5aff;
-}
 h1 {
 	font-size: 1em;
 	text-align: center;
@@ -37,13 +23,8 @@ h1 {
 	margin-left: auto;
 	margin-right: auto;
 }
-.form__explain-link {
-	text-decoration: none;
-}
-.form_explain-div{
-	background-color: #c2fff5;
-	border-radius: 0.2em;
-}
+
+
 .explain-div__p {
 	margin: 1em;
 	font-size: 0.8em;
@@ -86,23 +67,10 @@ input.form__input-checkbox-elm {
 	padding: 0.1em;
 	margin-left: 0.3em;
 }
-input.form__input-elm--error {
-	background-color: #FAD3D9;
-	border-color: #FF0808;
 
-}
-input.form__input-elm--read-only {
-	background-color: #E3E5FA;
-}
 
-*:focus {
-	outline: 0;
-}
 
 .form__number-label {
-	display: inline-block;
-	background-color: #ffffff;
-	border: solid 0.05em #ADADAD;
 	vertical-align: middle;
 	height: 1.5em;
 	line-height: 1.5em;
@@ -112,13 +80,10 @@ input.form__input-elm--read-only {
 
 }
 
-.form__number-label--stroke { 
-	display: inline-block;
-	background-color: #808080;
+.form__number-label--stroke {
 	vertical-align: middle;
 	width: 0.3em;
 	height: 1.8em;
-
 }
 
 .form__text-label {
@@ -141,8 +106,8 @@ input.form__input-elm--read-only {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 2em; 
-	font-size: 0.7em; 
+	height: 2em;
+	font-size: 0.7em;
 }
 .footer__version-info {
 	float: left;
@@ -169,6 +134,5 @@ body {
 
 .centerwrap {
 	margin: auto;
-	width: 728px;	
-
+	width: 728px;
 }

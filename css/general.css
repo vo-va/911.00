@@ -1,0 +1,62 @@
+
+body {
+	font-size: 20px;
+}
+
+.main__alert {
+	background-color: #ffe0c7;
+}
+.main__notice {
+	background-color: #c7ebff;
+}
+
+.main__form {
+	background-color:  #C8C8C8;
+	font-family: Arial;
+}
+
+a {
+	color: #1f5aff;
+}
+
+
+.form_explain-div{
+	background-color: #c2fff5;
+	border-radius: 0.2em;
+	border: solid 1px #ADADAD;
+}
+.explain-div__p {
+	padding: 0.2em;
+}
+
+.form__explain-link {
+	text-decoration: none;
+}
+
+
+input.form__input-elm--error {
+	background-color: #FAD3D9;
+	border-color: #FF0808;
+
+}
+
+input.form__input-elm--read-only {
+	background-color: #E3E5FA;
+}
+
+*:focus {
+	outline: 0;
+}
+
+
+.form__number-label {
+	display: inline-block;
+	background-color: #ffffff;
+	border: solid 1px #ADADAD;
+}
+
+
+.form__number-label--stroke {
+	display: inline-block;
+	background-color: #808080;
+}

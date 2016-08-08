@@ -30,10 +30,10 @@ var Period = React.createClass({
 		return (
 			<div className="form__item">
 				<div className="form__input-container">
-					<label className="form__label">
+					<label className="form__label" htmlFor="input_period">
 							<span className="form__text-label">Срок действия патента в месяцах</span>
 					</label>
-					<input tabIndex="2" className={class_arr.join(' ')} type="text" value={this.props.period} onChange={this.handleChange} />
+					<input tabIndex="2" id="input_period" className={class_arr.join(' ')} type="text" value={this.props.period} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 					{errors}
@@ -45,7 +45,8 @@ var Period = React.createClass({
 
 var Pensioner = React.createClass({
 	handleChange : function(event) {
-		this.props.pensioner_change(event.target.checked);
+		var new_value = this.props.pensioner === true ? false : true
+		this.props.pensioner_change(new_value);
 	},
 	render : function() {
 		var class_arr = ['form__input-checkbox-elm', 'pensioner'];
@@ -60,13 +61,13 @@ var Pensioner = React.createClass({
 		return (
 			<div className="form__item">
 				<div className="form__input-container">
-					<label className="form__label">
+					<label className="form__label" htmlFor="input_pensioner">
 							<span className="form__text-label">Являюсь пенсионером</span>
 							<span className="form__text-label--explain">
 								<ExplainLink explain_html={this.props.pensioner_explain} explain_click={ this.props.handle_explain_click } input_element="pensioner" />
 							</span>
 					</label>
-					<input tabIndex="1" className={class_arr.join(' ')} type="checkbox" checked={this.props.pensioner} onChange={this.handleChange} />
+					<input tabIndex="1" id="input_pensioner" className={class_arr.join(' ')} type="checkbox" checked={this.props.pensioner} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 					{errors}
@@ -100,12 +101,12 @@ var IncomeInput = React.createClass({
 		return (
 			<div className="form__item">
 				<div className="form__input-container">
-					<label className="form__label">
+					<label className="form__label" htmlFor="input_income">
 							<span className="form__number-label">911.00.001</span>
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Доход</span>
 					</label>
-					<input tabIndex="3" className={class_arr.join(' ')} type="text" value={this.props.income} onChange={this.handleChange} />
+					<input tabIndex="3" id="input_income" className={class_arr.join(' ')} type="text" value={this.props.income} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 				{errors}
@@ -193,12 +194,12 @@ var IncomeTaxed = React.createClass({
 		return (
 			<div className="form__item">
 			<div className="form__input-container">
-					<label className="form__label">
+					<label className="form__label" htmlFor="input_income-taxed">
 							<span className="form__number-label">911.00.006</span>
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Заявленный доход для исчисления обязательных пенсионных взносов</span>
 					</label>
-			<input tabIndex="4" className={class_arr.join(' ')} type="text" value={this.props.amount} onChange={this.handleChange} readOnly={this.props.readOnly} />
+			<input tabIndex="4"  id="input_income-taxed" className={class_arr.join(' ')} type="text" value={this.props.amount} onChange={this.handleChange} readOnly={this.props.readOnly} />
 			</div>
 			<div className="form__errors">
 				{errors}
@@ -250,12 +251,12 @@ var MandatoryPC = React.createClass({
 		return (
 			<div className="form__item">
 			<div className="form__input-container">
-			<label className="form__label">
+			<label className="form__label" htmlFor="input_mandatorypc">
 					<span className="form__number-label">911.00.007</span>
 					<span className="form__number-label--stroke"></span>
 					<span className="form__text-label">Сумма обязательных пенсионных взносов</span>
 			</label>
-			<input tabIndex="5" className={class_arr.join(' ')} type="text" value={this.props.amount} onChange = {this.handleChange} readOnly={this.props.readOnly}/>
+			<input tabIndex="5"  id="input_mandatorypc" className={class_arr.join(' ')} type="text" value={this.props.amount} onChange = {this.handleChange} readOnly={this.props.readOnly}/>
 			</div>
 			<div className="form__errors">
 				{errors}
@@ -281,7 +282,8 @@ var ExplainLink = React.createClass({
 			input_element : this.props.input_element,
 			explain_html : {'__html' :this.props.explain_html},
 			form_position : form_position,
-			link_position : link_position
+			link_position : link_position,
+			window_heigh : window.innerHeight,
 		});
 	},
 	render: function() {
@@ -307,13 +309,29 @@ var ExplainDiv = React.createClass({
 		var div_rect;
 		var div_style;
 		var dom_node;
+		var quarters;
 		if (this.display_state === 'show') {
 			dom_node =  ReactDOM.findDOMNode(this);
 			div_rect = dom_node.getClientRects()[0];
-			new_top_offset = this.props.explain_info.link_position.top - (div_rect.height / 2);
+
+			if (div_rect.height >= this.props.explain_info.window_heigh) {
+				new_top_offset = this.props.explain_info.link_position.top
+			} else {
+				quarters = this.props.explain_info.window_heigh / 4;
+
+				if (this.props.explain_info.link_position.top <= quarters){
+					new_top_offset = this.props.explain_info.link_position.top
+				} else  if (this.props.explain_info.link_position.top >= 3 * quarters ) {
+					new_top_offset = this.props.explain_info.link_position.top - div_rect.height ;
+				} else {
+					new_top_offset = this.props.explain_info.link_position.top - (div_rect.height / 2);
+				}
+			}
+
 			div_style = [
 				'display: block; position : absolute; top: ' ,
-				new_top_offset.toString() , 'px',
+				(new_top_offset + window.scrollY).toString() , 'px',
+
 				'; left : ' , this.props.explain_info.form_position.left.toString() , 'px',
 				'; width :', this.props.explain_info.form_position.width.toString(), 'px',
 				';'].join('');
@@ -582,10 +600,11 @@ var _patent_form = ReactDOM.render(
 var body = document.getElementsByTagName('body')[0];
 
 body.addEventListener('click', function(event) {
-	if (event.target.classList.contains('link-hint')){
+
+	if (event.target.classList.contains('link-hint') || event.target.classList.contains('form__explain-link') ){
 		event.preventDefault();
-		_patent_form.hide_explain();
 	}
+	_patent_form.hide_explain();
 });
 
 }());
