@@ -33,7 +33,7 @@ var Period = React.createClass({
 					<label className="form__label" htmlFor="input_period">
 							<span className="form__text-label">Срок действия патента в месяцах</span>
 					</label>
-					<input tabIndex="2" id="input_period" className={class_arr.join(' ')} type="text" value={this.props.period} onChange={this.handleChange} />
+					<input tabIndex="2" id="input_period" className={class_arr.join(' ')} type="number" value={this.props.period} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 					{errors}
@@ -106,7 +106,7 @@ var IncomeInput = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Доход</span>
 					</label>
-					<input tabIndex="3" id="input_income" className={class_arr.join(' ')} type="text" value={this.props.income} onChange={this.handleChange} />
+					<input tabIndex="3" id="input_income" className={class_arr.join(' ')} type="number" value={this.props.income} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 				{errors}
@@ -131,7 +131,7 @@ var PatentCosts = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма исчисленных налогов (911.00.001 × 2%)</span>
 					</label>
-					<input tabIndex="-1" className={class_arr.join(' ')} type="text" value={this.props.patent_cost} readOnly />
+					<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.patent_cost} readOnly />
 			</div>
 			</div>
 		);
@@ -149,7 +149,7 @@ var PersonalIncomeTax = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма индивидуального подоходного налога, подлежащего уплате в бюджет (911.00.002 × 0,5)</span>
 					</label>
-			<input tabIndex="-1" className={class_arr.join(' ')} type="text" value={this.props.amount} readOnly/>
+			<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.amount} readOnly/>
 			</div>
 			</div>
 		);
@@ -167,7 +167,7 @@ var SocialTax = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма социального налога, подлежащего уплате в бюджет ((911.00.002 × 0,5) - 911.00.005)</span>
 					</label>
-			<input tabIndex="-1" className={class_arr.join(' ')} type="text" value={this.props.amount} readOnly />
+			<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.amount} readOnly />
 			</div>
 			</div>
 		);
@@ -199,7 +199,7 @@ var IncomeTaxed = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Заявленный доход для исчисления обязательных пенсионных взносов</span>
 					</label>
-			<input tabIndex="4"  id="input_income-taxed" className={class_arr.join(' ')} type="text" value={this.props.amount} onChange={this.handleChange} readOnly={this.props.readOnly} />
+			<input tabIndex="4"  id="input_income-taxed" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange={this.handleChange} readOnly={this.props.readOnly} />
 			</div>
 			<div className="form__errors">
 				{errors}
@@ -223,7 +223,7 @@ var MandatorySSC = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма социальных отчислений</span>
 					</label>
-			<input tabIndex="-1" className={class_arr.join(' ')} type="text" value={this.props.amount} readOnly />
+			<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.amount} readOnly />
 			</div>
 			</div>
 		);
@@ -256,7 +256,7 @@ var MandatoryPC = React.createClass({
 					<span className="form__number-label--stroke"></span>
 					<span className="form__text-label">Сумма обязательных пенсионных взносов</span>
 			</label>
-			<input tabIndex="5"  id="input_mandatorypc" className={class_arr.join(' ')} type="text" value={this.props.amount} onChange = {this.handleChange} readOnly={this.props.readOnly}/>
+			<input tabIndex="5"  id="input_mandatorypc" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange = {this.handleChange} readOnly={this.props.readOnly}/>
 			</div>
 			<div className="form__errors">
 				{errors}

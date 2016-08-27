@@ -1,5 +1,6 @@
 body {
 	min-width: 300px;
+
 }
 .wrapper {
 	width:  100%;
@@ -74,6 +75,11 @@ h1 {
 	line-height: 1.625em;
 }
 
+.form__number-label {
+	line-height: 1.125;
+}
+
+
 input {
 	padding: 0;
 
@@ -88,7 +94,7 @@ input.form__input-elm {
 	width: 5em;
 	flex-shrink: 0;
 	-webkit-appearance: none;
-	-moz-appearance: none;
+	-moz-appearance: textfield;
 	padding: 0 0.2em;
 
 
