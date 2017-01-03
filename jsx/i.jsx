@@ -2,7 +2,8 @@
 (function() {
 
 var max_multiple = 300;
-var minimal_wage = 22859
+var minimal_wage = 24459;
+var HI_RATE_2017 = 0.02;
 
 var ErrorP = React.createClass({
 	render : function () {
@@ -37,6 +38,46 @@ var Period = React.createClass({
 				</div>
 				<div className="form__errors">
 					{errors}
+				</div>
+			</div>
+		);
+	}
+});
+
+var PeriodHI = React.createClass({
+	handleChange : function(event) {
+		this.props.periodhi_change(event.target.value);
+	},
+	render : function() {
+		var class_arr = ['form__input-elm', 'periodhi'];
+
+		if (this.props.readOnly) {
+			class_arr.push('form__input-elm--read-only');
+		}
+
+		var errors = [];
+		if (this.props.errors){
+			class_arr.push('form__input-elm--error');
+			for(var i = 0; i < this.props.errors.length; i++) {
+				errors.push(this.props.errors[i]);
+			}
+		}
+		return (
+			<div className="form__item">
+				<div className="form__input-container">
+					<label className="form__label" htmlFor="input_periodhi">
+							<span className="form__text-label">Срок действия патента начиная с 1 июля 2017</span>
+							<span className="form__text-label--explain">
+								<ExplainLink explain_html={this.props.periodhi_explain} explain_click={ this.props.handle_explain_click } input_element="periodhi" />
+							</span>
+					</label>
+					<input tabIndex="3" id="input_periodhi" className={class_arr.join(' ')} type="number" value={this.props.periodhi} onChange={this.handleChange} readOnly={this.props.readOnly} />
+				</div>
+				<div className="form__errors">
+					{errors}
+				</div>
+				<div className="form__explain_popup">
+					<ExplainDiv explain_info={ this.props.explain } hide_explain={ this.props.hide_explain } />
 				</div>
 			</div>
 		);
@@ -106,7 +147,7 @@ var IncomeInput = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Доход</span>
 					</label>
-					<input tabIndex="3" id="input_income" className={class_arr.join(' ')} type="number" value={this.props.income} onChange={this.handleChange} />
+					<input tabIndex="4" id="input_income" className={class_arr.join(' ')} type="number" value={this.props.income} onChange={this.handleChange} />
 				</div>
 				<div className="form__errors">
 				{errors}
@@ -131,7 +172,7 @@ var PatentCosts = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма исчисленных налогов (911.00.001 × 2%)</span>
 					</label>
-					<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.patent_cost} readOnly />
+					<input tabIndex="-1" className={class_arr.join(' ')}  value={this.props.patent_cost} readOnly />
 			</div>
 			</div>
 		);
@@ -149,7 +190,7 @@ var PersonalIncomeTax = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма индивидуального подоходного налога, подлежащего уплате в бюджет (911.00.002 × 0,5)</span>
 					</label>
-			<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.amount} readOnly/>
+			<input tabIndex="-1" className={class_arr.join(' ')} value={this.props.amount} readOnly/>
 			</div>
 			</div>
 		);
@@ -167,7 +208,7 @@ var SocialTax = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма социального налога, подлежащего уплате в бюджет ((911.00.002 × 0,5) - 911.00.005)</span>
 					</label>
-			<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.amount} readOnly />
+			<input tabIndex="-1" className={class_arr.join(' ')} value={this.props.amount} readOnly />
 			</div>
 			</div>
 		);
@@ -199,7 +240,7 @@ var IncomeTaxed = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Заявленный доход для исчисления обязательных пенсионных взносов</span>
 					</label>
-			<input tabIndex="4"  id="input_income-taxed" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange={this.handleChange} readOnly={this.props.readOnly} />
+			<input tabIndex="5"  id="input_income-taxed" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange={this.handleChange} readOnly={this.props.readOnly} />
 			</div>
 			<div className="form__errors">
 				{errors}
@@ -223,7 +264,7 @@ var MandatorySSC = React.createClass({
 							<span className="form__number-label--stroke"></span>
 							<span className="form__text-label">Сумма социальных отчислений</span>
 					</label>
-			<input tabIndex="-1" className={class_arr.join(' ')} type="number" value={this.props.amount} readOnly />
+			<input tabIndex="-1" className={class_arr.join(' ')} value={this.props.amount} readOnly />
 			</div>
 			</div>
 		);
@@ -256,11 +297,42 @@ var MandatoryPC = React.createClass({
 					<span className="form__number-label--stroke"></span>
 					<span className="form__text-label">Сумма обязательных пенсионных взносов</span>
 			</label>
-			<input tabIndex="5"  id="input_mandatorypc" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange = {this.handleChange} readOnly={this.props.readOnly}/>
+			<input tabIndex="6"  id="input_mandatorypc" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange = {this.handleChange} readOnly={this.props.readOnly}/>
 			</div>
 			<div className="form__errors">
 				{errors}
 			</div>
+			<div className="form__explain_popup">
+				<ExplainDiv explain_info={ this.props.explain } hide_explain={ this.props.hide_explain } />
+			</div>
+			</div>
+		);
+	}
+});
+
+var MandatoryHI = React.createClass({
+	handleChange: function(event) {
+		this.props.mandatory_hi_change(event.target.value);
+	},
+
+	render: function() {
+		var class_arr = ['form__input-elm', 'mandatory_hi' , 'form__input-elm--read-only'];
+
+
+		return (
+			<div className="form__item">
+			<div className="form__input-container">
+			<label className="form__label" htmlFor="input_mandatoryhi">
+					<span className="form__number-label">911.00.008</span>
+					<span className="form__number-label--stroke"></span>
+					<span className="form__text-label">Сумма взносов на обязательное социальное медицинское страхование</span>
+					<span className="form__text-label--explain">
+						<ExplainLink explain_html={this.props.mandatoryhi_explain} explain_click={ this.props.handle_explain_click } input_element="mandatoryhi" />
+					</span>
+			</label>
+			<input tabIndex="7"  id="input_mandatoryhi" className={class_arr.join(' ')} type="number" value={this.props.amount} onChange = {this.handleChange} readOnly />
+			</div>
+
 			<div className="form__explain_popup">
 				<ExplainDiv explain_info={ this.props.explain } hide_explain={ this.props.hide_explain } />
 			</div>
@@ -356,16 +428,21 @@ var PatentForm = React.createClass({
 		return {
 			pensioner: false,
 			period : 1,
+			periodhi : 0,
 			income : 1 * minimal_wage,
 			social_tax : 0,
 			income_taxed : 1 * minimal_wage,
 			mandatory_pc : Math.round(0.1 * minimal_wage),
+			mandatory_hi : Math.round(HI_RATE_2017 * minimal_wage * 0),
 			explain_info : {},
 		};
 	},
 
 	handlePeriodChange: function(new_value) {
 		this.setState({period : new_value});
+	},
+	handlePeriodHIChange: function(new_value) {
+		this.setState({periodhi : new_value});
 	},
 	handlePensionerChange: function(new_value) {
 		this.setState({pensioner : new_value });
@@ -378,6 +455,9 @@ var PatentForm = React.createClass({
 	},
 	handleMandatoryPCChange: function(new_value) {
 		this.setState({mandatory_pc : new_value});
+	},
+	handleMandatoryHIChange: function(new_value) {
+		this.setState({mandatory_hi : new_value});
 	},
 
 	handle_click_fabric: function(handler) {
@@ -393,17 +473,23 @@ var PatentForm = React.createClass({
 		this.setState({'explain_info' : {} });
 	},
 
-	max_income_explain : 'Согласно <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/#z4414">закону "О налогах и других обязательных платежах в бюджет (Налоговый кодекс)" от 09.12.2008, статья 429, пункт 3</a> и <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMgNJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgBJEGSq#z11">закону "О республиканском бюджете на 2016-2018 годы", статья 11 пункт 1</a> предельный доход за весь год не должен превышать 300 кратный размер минимальной заработной платы на 2016 год. Если вы рассчитываете стоимость патента не на весь год (12 месяцев) мы предполагаем, что ваш доход одинаков каждый месяц.',
+	max_income_explain : 'Согласно <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/#z4414">закону "О налогах и других обязательных платежах в бюджет (Налоговый кодекс)" от 09.12.2008, статья 429, пункт 3</a> и <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQzMDMDAyBUnlJOallyamp-pHFpXqF-TmWpQ7KioCAJ_6YjM!/#z7">закону "О республиканском бюджете на 2017 - 2019 годы", статья 7 пункт 1</a> предельный доход за весь год не должен превышать 300 кратный размер минимальной заработной платы на 2017 год. Если вы рассчитываете стоимость патента не на весь год (12 месяцев) мы предполагаем, что ваш доход одинаков каждый месяц.',
 
-	min_income_explain : 'Закон <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/"> "О налогах и других обязательных платежах в бюджет (Налоговый кодекс)" от 09.12.2008</a> не устанавливает минимальный размер дохода при применении специального налогового режима на основе патента. Если ваш фактический доход будет меньше, чем заявленный в то согласно <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/#z4448">статье 432, пункту 3</a> вы вправе представить расчет в виде дополнительной налоговой отчетности на сумму уменьшения стоимости патента. Но так как стоимость патента оплачивается перед началом его действия, а так же, потому что согласно <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/#4439">статье 432, пункту 1</a>, в стоимость патента включаются сумма социальных отчислений, которая согласно закону <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoA2MDIDAxMI0HSeUk5qWXJqan6kcWleoX5OZalDsqKgIAr22gxA!!/#z16">"Об обязательном социальном страховании" от 24.04.2003 статье 14, пункту 2</a> не может быть меньше, чем 5 процентов от минимальной заработной платы, устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMgNJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgBJEGSq#z11">"О республиканском бюджете на 2016-2018 годы" статья 11 пункт 1</a>, мы ограничиваем минимальный размер дохода размером минимальной заработной платы.',
+	min_income_explain : 'Закон <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/"> "О налогах и других обязательных платежах в бюджет (Налоговый кодекс)" от 09.12.2008</a> не устанавливает минимальный размер дохода при применении специального налогового режима на основе патента. Если ваш фактический доход будет меньше, чем заявленный в то согласно <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/#z4448">статье 432, пункту 3</a> вы вправе представить расчет в виде дополнительной налоговой отчетности на сумму уменьшения стоимости патента. Но так как стоимость патента оплачивается перед началом его действия, а так же, потому что согласно <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_UhvAwsDELC0jAdJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAmbcPa/#4439">статье 432, пункту 1</a>, в стоимость патента включаются сумма социальных отчислений, которая согласно закону <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoA2MDIDAxMI0HSeUk5qWXJqan6kcWleoX5OZalDsqKgIAr22gxA!!/#z16">"Об обязательном социальном страховании" от 24.04.2003 статье 14, пункту 2</a> не может быть меньше, чем 5 процентов от минимальной заработной платы, устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQzMDMDAyBUnlJOallyamp-pHFpXqF-TmWpQ7KioCAJ_6YjM!/#z7">"О республиканском бюджете на 2017 - 2019 годы" статья 7 пункт 1</a>, мы ограничиваем минимальный размер дохода размером минимальной заработной платы.',
 
-	income_taxed_explain : 'Согласно закону <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z135">"О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 статья 25, пункт 3</a> размер обязательный пенсионных отчислений не может быть меньше чем 10 процентов от минимального размера заработной платы устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMgNJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgBJEGSq#z11">"О республиканском бюджете на 2016-2018 годы" статья 11 пункт 1</a>. Поэтому мы ограничиваем размер заявленного дохода для исчисления обязательных пенсионных отчислений размером минимальной заработной платы.',
+	income_taxed_explain : 'Согласно закону <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z135">"О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 статья 25, пункт 3</a> размер обязательный пенсионных отчислений не может быть меньше чем 10 процентов от минимального размера заработной платы устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQzMDMDAyBUnlJOallyamp-pHFpXqF-TmWpQ7KioCAJ_6YjM!/#z7">"О республиканском бюджете на 2017 - 2019 годы" статья 7 пункт 1</a>. Поэтому мы ограничиваем размер заявленного дохода для исчисления обязательных пенсионных отчислений размером минимальной заработной платы.',
 
-	min_mandatory_pc_explain : 'Согласно закону <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z135">"О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 статья 25, пункт 3</a> размер обязательный пенсионных отчислений равен 10 процентов от заявляемого дохода, но не менее 10 процентов от минимального размера заработной платы устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMgNJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgBJEGSq#z11">"О республиканском бюджете на 2016-2018 годы" статья 11, пункт 1</a>.',
+	min_mandatory_pc_explain : 'Согласно закону <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z135">"О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 статья 25, пункт 3</a> размер обязательный пенсионных отчислений равен 10 процентов от заявляемого дохода, но не менее 10 процентов от минимального размера заработной платы устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQzMDMDAyBUnlJOallyamp-pHFpXqF-TmWpQ7KioCAJ_6YjM!/#z7">"О республиканском бюджете на 2017 - 2019 годы" статья 7 пункт 1</a>.',
 
-	max_mandatory_pc_explain : 'Согласно закону <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z135">"О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 статья 25, пункт 3</a> размер обязательный пенсионных отчислений не может быть выше 10 процентов от семидесятипятикратного минимального размера заработной платы устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMgNJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgBJEGSq#z11">"О республиканском бюджете на 2016-2018 годы" статья 11, пункт 1</a>.',
+	max_mandatory_pc_explain : 'Согласно закону <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z135">"О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 статья 25, пункт 3</a> размер обязательный пенсионных отчислений не может быть выше 10 процентов от семидесятипятикратного минимального размера заработной платы устанавливаемой законом <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQzMDMDAyBUnlJOallyamp-pHFpXqF-TmWpQ7KioCAJ_6YjM!/#z7">"О республиканском бюджете на 2017 - 2019 годы" статья 7 пункт 1</a>.',
 
-	pensioner_explain : 'Согласно закону "О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 лица достигшие возраста указанного в <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z69">11 статье</a> являются пенсионнерами.<br/>Пенсионеры не являются лицами подлежащими обязательному социальному страхованию согласно закону "Об обязательном социальном страховании" <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoA2MDIDAxMI0HSeUk5qWXJqan6kcWleoX5OZalDsqKgIAr22gxA!!/#z9">статья 8</a>.<br/>Также пенсионнеры свобождаются от уплаты обязательных пенсионных взносов согласно закону "О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 <a target="blank" href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z122">статья 24</a>',
+	pensioner_explain : 'Согласно закону "О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 лица достигшие возраста указанного в <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z69">11 статье</a> являются пенсионнерами.<br/>Пенсионеры не являются лицами подлежащими обязательному социальному страхованию согласно закону "Об обязательном социальном страховании" <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoA2MDIDAxMI0HSeUk5qWXJqan6kcWleoX5OZalDsqKgIAr22gxA!!/#z9">статья 8</a>.<br/>Также пенсионнеры свобождаются от уплаты обязательных пенсионных взносов согласно закону "О пенсионном обеспечении в Республике Казахстан" от 20.06.2013 <a target="blank" href="https://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ2MDEDA0MAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgDuJERZ/#z122">статья 24</a> и от уплаты взносов на обязательное социальное медицинское страхование закон "Об обязательном социальном медицинском страховании" от 15.11.2015 <a href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAzyyuF/#z28">статья 28 пункт 4</a>  ',
+
+	mandatoryhi_explain : 'Согласно закону "Об обязательном социальном медицинском страховании" от 15.11.2015 индивидуальные предприниматели обязаны перечислять взносы на обязательное социальное медицинское страхование в размере определённом в <a href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAzyyuF/#z28"> статье 28 пункт 2</a>. Объект исчисления взносов определяется в <a href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAzyyuF/#z29">статье 29 пункт 3</a>',
+
+	periodhi_explain : 'Согласно закону "Об обязательном социальном медицинском страховании" от 15.11.2015 <a href="http://egov.kz/wps/portal/!ut/p/b0/04_Sj9CPykssy0xPLMnMz0vMAfIjc7PyChKtUvKTS3NT80r0w_Wj9KNgPM8U_cgoQ1MDEDAxMAVJ5STmpZcmpqfqRxaV6hfk5lqUOyoqAgAzyyuF/#z28"> статье 28 пункт 2</a> индивидуальные предприниматели обязаны перечислять взносы на обязательное социальное медицинское страхование начиная с 1 июля 2017 года.',
+
+
 
 
 	render: function() {
@@ -432,11 +518,13 @@ var PatentForm = React.createClass({
 			}
 		}
 
+
 		if (this.state.pensioner === true) {
 			local_state.mandatory_pc = 0;
 			local_state.mandatory_ssc = 0;
 			local_state.pensioner = true;
 			local_state.income_taxed = 0;
+			local_state.periodhi = 0;
 		} else {
 			local_state.pensioner = false;
 		}
@@ -448,8 +536,16 @@ var PatentForm = React.createClass({
 			}
 		}
 
+		if (errmsg.periodhi === undefined) {
+			if(local_state.periodhi < 0 || local_state.periodhi > 6) {
+				errmsg['periodhi'] = [<p>В 2017 году уплата взносов на обязательное социальное медицинское страхование начинается с 1 июля 2017 года, поэтому срок не может быть больше 6</p>];
+			}
+		}
+
+
 		if (errmsg.income === undefined
-			&& errmsg.period === undefined) {
+			&& errmsg.period === undefined
+			&& errmsg.periodhi === undefined) {
 			var max_year_income = Math.round(max_multiple * minimal_wage);
 			var max_period_income = Math.round(( max_year_income / 12 ) * local_state.period);
 			var min_period_income = Math.round(minimal_wage * local_state.period);
@@ -473,9 +569,11 @@ var PatentForm = React.createClass({
 			}
 		}
 
+
 		if (errmsg.income_taxed === undefined
 			&& errmsg.income === undefined
 			&& errmsg.period === undefined
+			&& errmsg.periodhi === undefined
 			&& local_state.pensioner === false) {
 
 
@@ -494,7 +592,8 @@ var PatentForm = React.createClass({
 		if (errmsg.mandatory_pc === undefined
 			&& errmsg.income_taxed === undefined
 			&& errmsg.income === undefined
-			&& errmsg.period === undefined ) {
+			&& errmsg.period === undefined
+			&& errmsg.periodhi === undefined ) {
 
 			var min_income_taxed = Math.round(local_state.period * minimal_wage );
 			if (local_state.pensioner === false) {
@@ -533,7 +632,10 @@ var PatentForm = React.createClass({
 		if (errmsg.mandatory_pc === undefined
 			&& errmsg.income_taxed === undefined
 			&& errmsg.income === undefined
-			&& errmsg.period === undefined ) {
+			&& errmsg.period === undefined
+			&& errmsg.periodhi === undefined ) {
+
+			local_state.mandatory_hi = Math.round(local_state.periodhi * minimal_wage * 0.02);
 
 			local_state.patent_cost = Math.round(local_state.income * 0.02);
 			local_state.personal_income_tax = Math.round(local_state.patent_cost * 0.5);
@@ -561,6 +663,12 @@ var PatentForm = React.createClass({
 					pensioner_explain = {this.pensioner_explain}
 					explain = {explain.pensioner}/>
 				<Period period_change = {this.handlePeriodChange} period={local_state.period} errors = {errmsg.period} />
+				<PeriodHI periodhi_change = {this.handlePeriodHIChange} periodhi={local_state.periodhi} errors = {errmsg.periodhi}
+					readOnly = {local_state.pensioner}
+					handle_explain_click = {this.handle_explain_click}
+					hide_explain = {this.hide_explain}
+					periodhi_explain = {this.periodhi_explain}
+					explain = {explain.periodhi}/>
 				<IncomeInput
 					income_change={this.handleIncomeChange}
 					income = {this.state.income}
@@ -585,6 +693,16 @@ var PatentForm = React.createClass({
 					explain = {explain.mandatory_pc}
 					readOnly = {local_state.pensioner}
 					hide_explain = { this.hide_explain } />
+
+				<MandatoryHI
+					mandatory_hi_change = {this.handleMandatoryHIChange}
+					amount= {local_state.mandatory_hi}
+					errors = {errmsg.mandatory_hi}
+					readOnly = {local_state.pensioner}
+					handle_explain_click = {this.handle_explain_click}
+					hide_explain = {this.hide_explain}
+					mandatoryhi_explain = {this.mandatoryhi_explain}
+					explain = {explain.mandatoryhi} />
 
 			</form>
 			</div>
